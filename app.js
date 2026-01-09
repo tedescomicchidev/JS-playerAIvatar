@@ -48,6 +48,7 @@ const state = {
  */
 function init() {
   state.stepElements = Array.from(document.querySelectorAll(".wizard-step"));
+  // Setzt jede Kleidungsschicht zu Beginn auf einen neutralen Zustand zurück.
   CLOTHING_STEPS.forEach((config) => clearLayer(config.key));
   attachEventListeners();
   showStep(0);
@@ -60,6 +61,7 @@ document.addEventListener("DOMContentLoaded", init);
  * @returns {Promise<void>}
  */
 async function loadAllColorData() {
+  // Lädt die Farblisten für alle Schritte parallel, um Wartezeiten zu reduzieren.
   const tasks = CLOTHING_STEPS.map(async (config) => {
     const colors = await fetchColorOptions(config.dataFile);
     state.colorOptions[config.key] = colors;
@@ -77,11 +79,13 @@ async function loadAllColorData() {
 async function fetchColorOptions(url) {
   try {
     const response = await fetch(url);
+    // Bricht ab, wenn die Datei nicht erfolgreich geladen werden konnte.
     if (!response.ok) {
       throw new Error(`Failed to load ${url}`);
     }
 
     const data = await response.json();
+    // Nutzt nur valide Datensätze, die tatsächlich eine Farbliste enthalten.
     if (!Array.isArray(data.colors)) {
       return [];
     }
@@ -99,6 +103,7 @@ async function fetchColorOptions(url) {
  */
 function populateDropdown(selectId, options) {
   const select = document.getElementById(selectId);
+  // Überspringt das Befüllen, falls das Select-Element nicht existiert.
   if (!select) {
     return;
   }
@@ -112,6 +117,7 @@ function populateDropdown(selectId, options) {
   placeholder.disabled = true;
   select.appendChild(placeholder);
 
+  // Erzeugt für jede Farbe eine auswählbare Option.
   options.forEach((option) => {
     const opt = document.createElement("option");
     opt.value = option.name;
@@ -132,12 +138,14 @@ function applyColor(itemType, colorName) {
   const availableColors = state.colorOptions[itemType] || [];
   const isValid = availableColors.some((entry) => entry.name === colorName);
 
+  // Nutzt nur gültige Farbkombinationen und überspringt unbekannte Einträge.
   if (!config || !isValid) {
     console.warn(`Color ${colorName} is not available for ${itemType}`);
     return;
   }
 
   const img = document.getElementById(config.imgId);
+  // Aktualisiert die Bildquelle nur, wenn der Layer im DOM vorhanden ist.
   if (img) {
     img.src = `${config.assetPrefix}${colorName}.png`;
     img.hidden = false;
@@ -150,12 +158,16 @@ function applyColor(itemType, colorName) {
  * Richtet alle Event-Listener für die Steuerelemente ein.
  */
 function attachEventListeners() {
+  // Verbindet jedes Dropdown mit seinem Änderungs-Handler.
   CLOTHING_STEPS.forEach((config) => {
     const select = document.getElementById(config.selectId);
+    // Fügt nur dann Listener hinzu, wenn das Select-Element existiert.
     if (select) {
       select.addEventListener("change", (event) => {
         const target = event.target;
+        // Reagiert ausschließlich auf echte Select-Elemente.
         if (target instanceof HTMLSelectElement) {
+          // Löscht die Ebene, wenn wieder keine Farbe gewählt ist.
           if (!target.value) {
             clearLayer(config.key);
             return;
@@ -171,18 +183,22 @@ function attachEventListeners() {
   const randomizeBtn = document.getElementById("randomize-btn");
   const resetBtn = document.getElementById("reset-btn");
 
+  // Aktiviert die Zurück-Navigation nur, wenn der Button vorhanden ist.
   if (backBtn) {
     backBtn.addEventListener("click", handleBackStep);
   }
 
+  // Aktiviert die Weiter-Navigation nur, wenn der Button vorhanden ist.
   if (nextBtn) {
     nextBtn.addEventListener("click", handleNextStep);
   }
 
+  // Verknüpft den Zufalls-Button nur, wenn er in der Oberfläche existiert.
   if (randomizeBtn) {
     randomizeBtn.addEventListener("click", randomizeOutfit);
   }
 
+  // Reagiert auf den Reset-Button nur, wenn er wirklich vorhanden ist.
   if (resetBtn) {
     resetBtn.addEventListener("click", resetOutfit);
   }
@@ -192,6 +208,7 @@ function attachEventListeners() {
  * Wechselt den Assistenten zum vorherigen Schritt.
  */
 function handleBackStep() {
+  // Verhindert ein Zurückspringen vor den ersten Schritt.
   if (state.currentStep === 0) {
     return;
   }
@@ -214,6 +231,7 @@ function handleNextStep() {
 function showStep(stepIndex) {
   state.currentStep = stepIndex;
 
+  // Blendet nur den aktiven Schritt ein und versteckt alle anderen.
   state.stepElements.forEach((element, index) => {
     element.classList.toggle("step-active", index === stepIndex);
     element.classList.toggle("step-hidden", index !== stepIndex);
@@ -225,14 +243,17 @@ function showStep(stepIndex) {
   const totalSteps = state.stepElements.length;
   const label = CLOTHING_STEPS[stepIndex]?.label ?? "";
 
+  // Deaktiviert den Zurück-Button, wenn es keinen vorherigen Schritt gibt.
   if (backBtn) {
     backBtn.disabled = stepIndex === 0;
   }
 
+  // Passt den Button-Text an, sobald der letzte Schritt erreicht ist.
   if (nextBtn) {
     nextBtn.textContent = stepIndex === totalSteps - 1 ? "Finish" : "Next";
   }
 
+  // Aktualisiert die Schrittanzeige, sofern sie existiert.
   if (indicator) {
     indicator.textContent = `Step ${stepIndex + 1} of ${totalSteps}: ${label}`;
   }
@@ -242,8 +263,10 @@ function showStep(stepIndex) {
  * Wendet zufällige Farben auf alle Kleidungsstücke an und hält den Status synchron.
  */
 function randomizeOutfit() {
+  // Durchläuft alle Layer und weist ihnen zufällige Farben zu.
   CLOTHING_STEPS.forEach((config) => {
     const options = state.colorOptions[config.key] || [];
+    // Überspringt Layer ohne vorhandene Farboptionen.
     if (options.length === 0) {
       return;
     }
@@ -251,6 +274,7 @@ function randomizeOutfit() {
     applyColor(config.key, randomColor.name);
 
     const select = document.getElementById(config.selectId);
+    // Synchronisiert die Dropdown-Auswahl mit der zufällig gesetzten Farbe.
     if (select) {
       select.value = randomColor.name;
     }
@@ -261,8 +285,10 @@ function randomizeOutfit() {
  * Setzt die Auswahl und Avatar-Schichten auf den Ausgangszustand zurück.
  */
 function resetOutfit() {
+  // Setzt alle Dropdowns und Layer Schritt für Schritt zurück.
   CLOTHING_STEPS.forEach((config) => {
     const select = document.getElementById(config.selectId);
+    // Springt nur bei vorhandenen Selects auf die Platzhalter-Option.
     if (select) {
       select.selectedIndex = 0;
       select.value = "";
@@ -278,10 +304,12 @@ function resetOutfit() {
  */
 function clearLayer(itemType) {
   const config = CLOTHING_STEPS.find((step) => step.key === itemType);
+  // Überspringt die Operation, wenn es keine passende Konfiguration gibt.
   if (!config) {
     return;
   }
   const img = document.getElementById(config.imgId);
+  // Versteckt die Ebene nur dann, wenn das Bild im DOM existiert.
   if (img) {
     img.removeAttribute("src");
     img.hidden = true;
