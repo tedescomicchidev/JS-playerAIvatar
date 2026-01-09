@@ -78,6 +78,7 @@ main {
   top: 0;
   width: 92%;
   z-index: 1;
+  position: absolute;
 }
 
 /* Garment layers sized and positioned to match the illustrated body */
@@ -88,22 +89,26 @@ main {
 }
 
 #avatar-shirt {
-  top: 25%;
+  top: 17.6%;
   width: 58%;
   left: 55%;
+  position: absolute;
 }
 
 #avatar-pants {
-  top: 65%;
+  top: 46%;
   width: 46%;
   left: 55%;
   z-index: 3;
+  position: absolute;
 }
 
 #avatar-shoes {
-  top: 92%;
-  width: 42%;
+  top: 78.7%;
+  width: 60%;
+  left: 57%;
   z-index: 4;
+  position: absolute;
 }
 
 .controls-column {
@@ -226,4 +231,17 @@ button:disabled {
   .avatar-canvas {
     height: 660px;
   }
+
+  #avatar-shirt {
+    top: 19.6%;
+  }
+
+  #avatar-pants {
+    top: 51%;
+  }
+
+  #avatar-shoes {
+    top: 87.4%;
+  }
+
 }

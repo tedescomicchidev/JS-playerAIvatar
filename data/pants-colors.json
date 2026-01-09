@@ -1,5 +1,6 @@
 {
   "colors": [
-    { "name": "yellow", "label": "Yellow" }
+    { "name": "yellow", "label": "Yellow" },
+    { "name": "red", "label": "Red" }
   ]
 }
