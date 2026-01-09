@@ -69,6 +69,7 @@ async function loadAllColorData() {
   });
 
   await Promise.all(tasks);
+  renderPreviewsForStep(state.currentStep);
 }
 
 /**
@@ -170,9 +171,11 @@ function attachEventListeners() {
           // Löscht die Ebene, wenn wieder keine Farbe gewählt ist.
           if (!target.value) {
             clearLayer(config.key);
+            updatePreviewSelection(config.key, "");
             return;
           }
           applyColor(config.key, target.value);
+          updatePreviewSelection(config.key, target.value);
         }
       });
     }
@@ -257,6 +260,99 @@ function showStep(stepIndex) {
   if (indicator) {
     indicator.textContent = `Schritt ${stepIndex + 1} von ${totalSteps}: ${label}`;
   }
+
+  renderPreviewsForStep(stepIndex);
+}
+
+/**
+ * Baut die Vorschauliste für den aktiven Schritt auf und synchronisiert sie mit der aktuellen Auswahl.
+ * @param {number} stepIndex
+ */
+function renderPreviewsForStep(stepIndex) {
+  const container = document.getElementById("option-preview-list");
+  const title = document.getElementById("preview-title");
+
+  if (!container || !title) {
+    return;
+  }
+
+  const config = CLOTHING_STEPS[stepIndex];
+
+  if (!config) {
+    container.dataset.stepKey = "";
+    container.innerHTML = "";
+    title.textContent = "";
+    return;
+  }
+
+  const options = state.colorOptions[config.key] || [];
+  const select = document.getElementById(config.selectId);
+  const currentValue = select?.value ?? "";
+
+  container.dataset.stepKey = config.key;
+  container.innerHTML = "";
+  title.textContent = `${config.label}-Optionen`;
+
+  if (options.length === 0) {
+    const emptyMessage = document.createElement("p");
+    emptyMessage.className = "option-preview-empty";
+    emptyMessage.textContent = "Optionen werden geladen ...";
+    container.appendChild(emptyMessage);
+    return;
+  }
+
+  options.forEach((option) => {
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className = "option-preview-card";
+    card.dataset.value = option.name;
+    card.setAttribute("role", "listitem");
+    card.setAttribute("aria-label", `${config.label} ${option.label}`);
+
+    if (option.name === currentValue) {
+      card.classList.add("is-selected");
+    }
+
+    card.addEventListener("click", () => {
+      const selectElement = document.getElementById(config.selectId);
+      if (selectElement) {
+        selectElement.value = option.name;
+        selectElement.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    });
+
+    const img = document.createElement("img");
+    img.src = `${config.assetPrefix}${option.name}.png`;
+    img.alt = `${config.label}: ${option.label}`;
+    img.loading = "lazy";
+
+    const caption = document.createElement("span");
+    caption.textContent = option.label;
+
+    card.appendChild(img);
+    card.appendChild(caption);
+    container.appendChild(card);
+  });
+}
+
+/**
+ * Hebt die aktive Vorschauoption hervor, sobald sich die Auswahl ändert.
+ * @param {string} stepKey
+ * @param {string} colorValue
+ */
+function updatePreviewSelection(stepKey, colorValue) {
+  const container = document.getElementById("option-preview-list");
+
+  if (!container || container.dataset.stepKey !== stepKey) {
+    return;
+  }
+
+  const currentValue = colorValue ?? "";
+  const cards = container.querySelectorAll(".option-preview-card");
+  cards.forEach((card) => {
+    const isSelected = Boolean(currentValue) && card.dataset.value === currentValue;
+    card.classList.toggle("is-selected", isSelected);
+  });
 }
 
 /**
@@ -278,6 +374,8 @@ function randomizeOutfit() {
     if (select) {
       select.value = randomColor.name;
     }
+
+    updatePreviewSelection(config.key, randomColor.name);
   });
 }
 
@@ -294,6 +392,7 @@ function resetOutfit() {
       select.value = "";
     }
     clearLayer(config.key);
+    updatePreviewSelection(config.key, "");
   });
   showStep(0);
 }
