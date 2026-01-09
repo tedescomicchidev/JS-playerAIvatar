@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Soccer Player Avatar Customizer</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="column avatar-column">
+        <h1>Soccer Player Styler</h1>
+        <div class="avatar-canvas" aria-live="polite">
+          <img
+            id="avatar-base"
+            src="assets/player.png"
+            alt="Base soccer player"
+            draggable="false"
+          />
+          <img
+            id="avatar-shirt"
+            class="avatar-layer"
+            alt="Player shirt"
+            draggable="false"
+            aria-hidden="true"
+            hidden
+          />
+          <img
+            id="avatar-pants"
+            class="avatar-layer"
+            alt="Player pants"
+            draggable="false"
+            aria-hidden="true"
+            hidden
+          />
+          <img
+            id="avatar-shoes"
+            class="avatar-layer"
+            alt="Player shoes"
+            draggable="false"
+            aria-hidden="true"
+            hidden
+          />
+          <img
+            id="avatar-ball"
+            class="avatar-layer"
+            alt="Player ball"
+            draggable="false"
+            aria-hidden="true"
+            hidden
+          />
+        </div>
+      </section>
+
+      <section class="column controls-column" aria-label="Customization wizard">
+        <div class="wizard-header">
+          <p id="step-indicator">Step 1 of 4: Shoes</p>
+          <div class="wizard-actions">
+            <button id="reset-btn" type="button">Start From Scratch</button>
+            <button id="randomize-btn" type="button">Randomize Outfit</button>
+          </div>
+        </div>
+
+        <form id="wizard-form">
+          <div class="wizard-step step-active" data-step="0">
+            <h2>Shoes</h2>
+            <label for="shoes-select">Choose shoe color</label>
+            <select id="shoes-select" name="shoes"></select>
+          </div>
+
+          <div class="wizard-step step-hidden" data-step="1">
+            <h2>T-Shirt</h2>
+            <label for="shirt-select">Choose shirt color</label>
+            <select id="shirt-select" name="shirt"></select>
+          </div>
+
+          <div class="wizard-step step-hidden" data-step="2">
+            <h2>Pants</h2>
+            <label for="pants-select">Choose pants color</label>
+            <select id="pants-select" name="pants"></select>
+          </div>
+
+          <div class="wizard-step step-hidden" data-step="3">
+            <h2>Pants</h2>
+            <label for="ball-select">Choose ball color</label>
+            <select id="ball-select" name="ball"></select>
+          </div>
+
+          <div class="wizard-nav">
+            <button id="back-btn" type="button" disabled>Back</button>
+            <button id="next-btn" type="button">Next</button>
+          </div>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>
