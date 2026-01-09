@@ -166,7 +166,7 @@ function attachEventListeners() {
     if (select) {
       select.addEventListener("change", (event) => {
         const target = event.target;
-        // Reagiert ausschließlich auf echte Select-Elemente.
+        // Reagiert ausschliesslich auf echte Select-Elemente.
         if (target instanceof HTMLSelectElement) {
           // Löscht die Ebene, wenn wieder keine Farbe gewählt ist.
           if (!target.value) {
