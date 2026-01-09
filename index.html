@@ -3,25 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Soccer Player Avatar Customizer</title>
+    <title>Fußballspieler-Avatar-Gestalter</title>
     <link rel="stylesheet" href="styles.css" />
     <script src="app.js" defer></script>
   </head>
   <body>
     <main class="app-shell">
       <section class="column avatar-column">
-        <h1>Soccer Player Styler</h1>
+        <h1>Fußballspieler-Styler</h1>
         <div class="avatar-canvas" aria-live="polite">
           <img
             id="avatar-base"
             src="assets/player.png"
-            alt="Base soccer player"
+            alt="Basis-Fußballspieler"
             draggable="false"
           />
           <img
             id="avatar-shirt"
             class="avatar-layer"
-            alt="Player shirt"
+            alt="Spielertrikot"
             draggable="false"
             aria-hidden="true"
             hidden
@@ -29,7 +29,7 @@
           <img
             id="avatar-pants"
             class="avatar-layer"
-            alt="Player pants"
+            alt="Spielerhose"
             draggable="false"
             aria-hidden="true"
             hidden
@@ -37,7 +37,7 @@
           <img
             id="avatar-shoes"
             class="avatar-layer"
-            alt="Player shoes"
+            alt="Spielerschuhe"
             draggable="false"
             aria-hidden="true"
             hidden
@@ -45,7 +45,7 @@
           <img
             id="avatar-ball"
             class="avatar-layer"
-            alt="Player ball"
+            alt="Spielerball"
             draggable="false"
             aria-hidden="true"
             hidden
@@ -53,43 +53,43 @@
         </div>
       </section>
 
-      <section class="column controls-column" aria-label="Customization wizard">
+      <section class="column controls-column" aria-label="Anpassungsassistent">
         <div class="wizard-header">
-          <p id="step-indicator">Step 1 of 4: Shoes</p>
+          <p id="step-indicator">Schritt 1 von 4: Schuhe</p>
           <div class="wizard-actions">
-            <button id="reset-btn" type="button">Start From Scratch</button>
-            <button id="randomize-btn" type="button">Randomize Outfit</button>
+            <button id="reset-btn" type="button">Von vorn beginnen</button>
+            <button id="randomize-btn" type="button">Outfit zufällig wählen</button>
           </div>
         </div>
 
         <form id="wizard-form">
           <div class="wizard-step step-active" data-step="0">
-            <h2>Shoes</h2>
-            <label for="shoes-select">Choose shoe color</label>
+            <h2>Schuhe</h2>
+            <label for="shoes-select">Schuhfarbe auswählen</label>
             <select id="shoes-select" name="shoes"></select>
           </div>
 
           <div class="wizard-step step-hidden" data-step="1">
             <h2>T-Shirt</h2>
-            <label for="shirt-select">Choose shirt color</label>
+            <label for="shirt-select">T-Shirt-Farbe auswählen</label>
             <select id="shirt-select" name="shirt"></select>
           </div>
 
           <div class="wizard-step step-hidden" data-step="2">
-            <h2>Pants</h2>
-            <label for="pants-select">Choose pants color</label>
+            <h2>Hose</h2>
+            <label for="pants-select">Hosenfarbe auswählen</label>
             <select id="pants-select" name="pants"></select>
           </div>
 
           <div class="wizard-step step-hidden" data-step="3">
-            <h2>Pants</h2>
-            <label for="ball-select">Choose ball color</label>
+            <h2>Ball</h2>
+            <label for="ball-select">Ballfarbe auswählen</label>
             <select id="ball-select" name="ball"></select>
           </div>
 
           <div class="wizard-nav">
-            <button id="back-btn" type="button" disabled>Back</button>
-            <button id="next-btn" type="button">Next</button>
+            <button id="back-btn" type="button" disabled>Zurück</button>
+            <button id="next-btn" type="button">Weiter</button>
           </div>
         </form>
       </section>

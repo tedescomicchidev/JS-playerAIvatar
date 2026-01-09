@@ -5,7 +5,7 @@
 const CLOTHING_STEPS = [
   {
     key: "shoes",
-    label: "Shoes",
+    label: "Schuhe",
     selectId: "shoes-select",
     imgId: "avatar-shoes",
     dataFile: "data/shoes-colors.json",
@@ -21,7 +21,7 @@ const CLOTHING_STEPS = [
   },
   {
     key: "pants",
-    label: "Pants",
+    label: "Hose",
     selectId: "pants-select",
     imgId: "avatar-pants",
     dataFile: "data/pants-colors.json",
@@ -112,7 +112,7 @@ function populateDropdown(selectId, options) {
 
   const placeholder = document.createElement("option");
   placeholder.value = "";
-  placeholder.textContent = "Select a color";
+  placeholder.textContent = "Farbe auswählen";
   placeholder.selected = true;
   placeholder.disabled = true;
   select.appendChild(placeholder);
@@ -250,12 +250,12 @@ function showStep(stepIndex) {
 
   // Passt den Button-Text an, sobald der letzte Schritt erreicht ist.
   if (nextBtn) {
-    nextBtn.textContent = stepIndex === totalSteps - 1 ? "Finish" : "Next";
+    nextBtn.textContent = stepIndex === totalSteps - 1 ? "Fertig" : "Weiter";
   }
 
   // Aktualisiert die Schrittanzeige, sofern sie existiert.
   if (indicator) {
-    indicator.textContent = `Step ${stepIndex + 1} of ${totalSteps}: ${label}`;
+    indicator.textContent = `Schritt ${stepIndex + 1} von ${totalSteps}: ${label}`;
   }
 }
 
