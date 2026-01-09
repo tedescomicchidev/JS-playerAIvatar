@@ -74,6 +74,10 @@ main {
   pointer-events: none;
 }
 
+.avatar-layer[hidden] {
+  display: none !important;
+}
+
 #avatar-base {
   top: 0;
   width: 92%;

@@ -141,6 +141,7 @@ function applyColor(itemType, colorName) {
   if (img) {
     img.src = `${config.assetPrefix}${colorName}.png`;
     img.hidden = false;
+    img.removeAttribute("hidden");
     img.setAttribute("aria-hidden", "false");
   }
 }
@@ -284,6 +285,7 @@ function clearLayer(itemType) {
   if (img) {
     img.removeAttribute("src");
     img.hidden = true;
+    img.setAttribute("hidden", "");
     img.setAttribute("aria-hidden", "true");
   }
 }
