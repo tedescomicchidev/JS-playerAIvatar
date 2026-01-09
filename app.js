@@ -1,5 +1,5 @@
 /**
- * Configuration describing each customizable clothing layer.
+ * Konfiguration, die jede anpassbare Kleidungsschicht beschreibt.
  * @type {Array<{key:string,label:string,selectId:string,imgId:string,dataFile:string,assetPrefix:string}>}
  */
 const CLOTHING_STEPS = [
@@ -36,7 +36,7 @@ const state = {
 };
 
 /**
- * Initializes the application once the DOM is ready.
+ * Initialisiert die Anwendung, sobald das DOM bereit ist.
  */
 function init() {
   state.stepElements = Array.from(document.querySelectorAll(".wizard-step"));
@@ -44,11 +44,10 @@ function init() {
   showStep(0);
   loadAllColorData();
 }
-
 document.addEventListener("DOMContentLoaded", init);
 
 /**
- * Loads JSON color data for each clothing type and populates dropdowns.
+ * Lädt JSON-Farbdaten für jeden Kleidungstyp und füllt die Dropdown-Menüs.
  * @returns {Promise<void>}
  */
 async function loadAllColorData() {
@@ -70,8 +69,8 @@ async function loadAllColorData() {
 }
 
 /**
- * Fetches color entries from a JSON file.
- * @param {string} url - Relative path to the JSON data file.
+ * Ruft Farbeinträge aus einer JSON-Datei ab.
+ * @param {string} url - Relativer Pfad zur JSON-Datendatei.
  * @returns {Promise<Array<{name:string,label:string}>>}
  */
 async function fetchColorOptions(url) {
@@ -93,9 +92,9 @@ async function fetchColorOptions(url) {
 }
 
 /**
- * Creates option elements for a select input.
- * @param {string} selectId - Target select element id.
- * @param {Array<{name:string,label:string}>} options - Color entries to render.
+ * Erstellt Optionselemente für ein Auswahlfeld (Select).
+ * @param {string} selectId - Ziel-Select-Element-ID.
+ * @param {Array<{name:string,label:string}>} options - Anzuzeigende Farbeinträge.
  */
 function populateDropdown(selectId, options) {
   const select = document.getElementById(selectId);
@@ -116,9 +115,9 @@ function populateDropdown(selectId, options) {
 }
 
 /**
- * Updates the avatar image for the provided clothing type.
- * @param {string} itemType - Key from CLOTHING_STEPS.
- * @param {string} colorName - Color option selected by the user.
+ * Aktualisiert das Avatar-Bild für den angegebenen Kleidungstyp.
+ * @param {string} itemType - Schlüssel aus CLOTHING_STEPS.
+ * @param {string} colorName - Vom Benutzer gewählte Farboption.
  */
 function applyColor(itemType, colorName) {
   const config = CLOTHING_STEPS.find((step) => step.key === itemType);
@@ -137,7 +136,7 @@ function applyColor(itemType, colorName) {
 }
 
 /**
- * Sets up all event listeners for controls.
+ * Richtet alle Event-Listener für die Steuerelemente ein.
  */
 function attachEventListeners() {
   CLOTHING_STEPS.forEach((config) => {
@@ -170,7 +169,7 @@ function attachEventListeners() {
 }
 
 /**
- * Moves the wizard to the previous step.
+ * Wechselt den Assistenten zum vorherigen Schritt.
  */
 function handleBackStep() {
   if (state.currentStep === 0) {
@@ -180,7 +179,7 @@ function handleBackStep() {
 }
 
 /**
- * Moves the wizard to the next step, looping back after the last step.
+ * Wechselt den Assistenten zum nächsten Schritt und springt nach dem letzten Schritt wieder zum Anfang.
  */
 function handleNextStep() {
   const nextIndex =
@@ -189,8 +188,8 @@ function handleNextStep() {
 }
 
 /**
- * Displays the selected wizard step and updates related UI elements.
- * @param {number} stepIndex - Index of the step to activate.
+ * Zeigt den ausgewählten Schritt des Assistenten an und aktualisiert die zugehörigen UI-Elemente.
+ * @param {number} stepIndex - Index des zu aktivierenden Schritts.
  */
 function showStep(stepIndex) {
   state.currentStep = stepIndex;
@@ -220,7 +219,7 @@ function showStep(stepIndex) {
 }
 
 /**
- * Applies random colors to all clothing items while keeping state in sync.
+ * Wendet zufällige Farben auf alle Kleidungsstücke an und hält den Status synchron.
  */
 function randomizeOutfit() {
   CLOTHING_STEPS.forEach((config) => {
