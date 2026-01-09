@@ -20,27 +20,35 @@
           />
           <img
             id="avatar-shirt"
-            src="assets/shirt-red.png"
+            class="avatar-layer"
             alt="Player shirt"
             draggable="false"
+            aria-hidden="true"
+            hidden
           />
           <img
             id="avatar-pants"
-            src="assets/pants-yellow.png"
+            class="avatar-layer"
             alt="Player pants"
             draggable="false"
+            aria-hidden="true"
+            hidden
           />
           <img
             id="avatar-shoes"
-            src="assets/shoes-black.png"
+            class="avatar-layer"
             alt="Player shoes"
             draggable="false"
+            aria-hidden="true"
+            hidden
           />
           <img
             id="avatar-ball"
-            src="assets/ball-white.png"
+            class="avatar-layer"
             alt="Player ball"
             draggable="false"
+            aria-hidden="true"
+            hidden
           />
         </div>
       </section>
@@ -48,7 +56,10 @@
       <section class="column controls-column" aria-label="Customization wizard">
         <div class="wizard-header">
           <p id="step-indicator">Step 1 of 4: Shoes</p>
-          <button id="randomize-btn" type="button">Randomize Outfit</button>
+          <div class="wizard-actions">
+            <button id="reset-btn" type="button">Start From Scratch</button>
+            <button id="randomize-btn" type="button">Randomize Outfit</button>
+          </div>
         </div>
 
         <form id="wizard-form">

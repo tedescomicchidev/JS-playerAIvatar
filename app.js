@@ -48,6 +48,7 @@ const state = {
  */
 function init() {
   state.stepElements = Array.from(document.querySelectorAll(".wizard-step"));
+  CLOTHING_STEPS.forEach((config) => clearLayer(config.key));
   attachEventListeners();
   showStep(0);
   loadAllColorData();
@@ -63,14 +64,6 @@ async function loadAllColorData() {
     const colors = await fetchColorOptions(config.dataFile);
     state.colorOptions[config.key] = colors;
     populateDropdown(config.selectId, colors);
-
-    if (colors.length > 0) {
-      applyColor(config.key, colors[0].name);
-      const select = document.getElementById(config.selectId);
-      if (select) {
-        select.value = colors[0].name;
-      }
-    }
   });
 
   await Promise.all(tasks);
@@ -112,6 +105,13 @@ function populateDropdown(selectId, options) {
 
   select.innerHTML = "";
 
+  const placeholder = document.createElement("option");
+  placeholder.value = "";
+  placeholder.textContent = "Select a color";
+  placeholder.selected = true;
+  placeholder.disabled = true;
+  select.appendChild(placeholder);
+
   options.forEach((option) => {
     const opt = document.createElement("option");
     opt.value = option.name;
@@ -140,6 +140,8 @@ function applyColor(itemType, colorName) {
   const img = document.getElementById(config.imgId);
   if (img) {
     img.src = `${config.assetPrefix}${colorName}.png`;
+    img.hidden = false;
+    img.setAttribute("aria-hidden", "false");
   }
 }
 
@@ -153,6 +155,10 @@ function attachEventListeners() {
       select.addEventListener("change", (event) => {
         const target = event.target;
         if (target instanceof HTMLSelectElement) {
+          if (!target.value) {
+            clearLayer(config.key);
+            return;
+          }
           applyColor(config.key, target.value);
         }
       });
@@ -162,6 +168,7 @@ function attachEventListeners() {
   const backBtn = document.getElementById("back-btn");
   const nextBtn = document.getElementById("next-btn");
   const randomizeBtn = document.getElementById("randomize-btn");
+  const resetBtn = document.getElementById("reset-btn");
 
   if (backBtn) {
     backBtn.addEventListener("click", handleBackStep);
@@ -173,6 +180,10 @@ function attachEventListeners() {
 
   if (randomizeBtn) {
     randomizeBtn.addEventListener("click", randomizeOutfit);
+  }
+
+  if (resetBtn) {
+    resetBtn.addEventListener("click", resetOutfit);
   }
 }
 
@@ -243,4 +254,36 @@ function randomizeOutfit() {
       select.value = randomColor.name;
     }
   });
+}
+
+/**
+ * Setzt die Auswahl und Avatar-Schichten auf den Ausgangszustand zurück.
+ */
+function resetOutfit() {
+  CLOTHING_STEPS.forEach((config) => {
+    const select = document.getElementById(config.selectId);
+    if (select) {
+      select.selectedIndex = 0;
+      select.value = "";
+    }
+    clearLayer(config.key);
+  });
+  showStep(0);
+}
+
+/**
+ * Entfernt die aktuelle Grafikschicht und blendet den Layer aus.
+ * @param {string} itemType
+ */
+function clearLayer(itemType) {
+  const config = CLOTHING_STEPS.find((step) => step.key === itemType);
+  if (!config) {
+    return;
+  }
+  const img = document.getElementById(config.imgId);
+  if (img) {
+    img.removeAttribute("src");
+    img.hidden = true;
+    img.setAttribute("aria-hidden", "true");
+  }
 }

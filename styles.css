@@ -131,6 +131,13 @@ main {
   margin-bottom: 1.5rem;
 }
 
+.wizard-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: flex-end;
+}
+
 #step-indicator {
   margin: 0;
   font-weight: 600;
@@ -206,6 +213,17 @@ button {
 #randomize-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 20px 40px rgba(250, 204, 21, 0.35);
+}
+
+#reset-btn {
+  padding: 0.8rem 1.2rem;
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+#reset-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .wizard-nav {
