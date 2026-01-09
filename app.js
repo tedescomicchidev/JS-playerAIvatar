@@ -27,6 +27,14 @@ const CLOTHING_STEPS = [
     dataFile: "data/pants-colors.json",
     assetPrefix: "assets/pants-",
   },
+  {
+    key: "ball",
+    label: "Ball",
+    selectId: "ball-select",
+    imgId: "avatar-ball",
+    dataFile: "data/ball-colors.json",
+    assetPrefix: "assets/ball-",
+  },
 ];
 
 const state = {

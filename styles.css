@@ -111,6 +111,14 @@ main {
   position: absolute;
 }
 
+#avatar-ball {
+  top: 38.3%;
+  width: 18.5%;
+  left: 30%;
+  z-index: 4;
+  position: absolute;
+}
+
 .controls-column {
   background: var(--surface-alt);
 }
@@ -242,6 +250,10 @@ button:disabled {
 
   #avatar-shoes {
     top: 87.4%;
+  }
+
+  #avatar-ball {
+    top: 42.5%;
   }
 
 }

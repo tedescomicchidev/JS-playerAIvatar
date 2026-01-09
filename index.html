@@ -36,12 +36,18 @@
             alt="Player shoes"
             draggable="false"
           />
+          <img
+            id="avatar-ball"
+            src="assets/ball-white.png"
+            alt="Player ball"
+            draggable="false"
+          />
         </div>
       </section>
 
       <section class="column controls-column" aria-label="Customization wizard">
         <div class="wizard-header">
-          <p id="step-indicator">Step 1 of 3: Shoes</p>
+          <p id="step-indicator">Step 1 of 4: Shoes</p>
           <button id="randomize-btn" type="button">Randomize Outfit</button>
         </div>
 
@@ -62,6 +68,12 @@
             <h2>Pants</h2>
             <label for="pants-select">Choose pants color</label>
             <select id="pants-select" name="pants"></select>
+          </div>
+
+          <div class="wizard-step step-hidden" data-step="3">
+            <h2>Pants</h2>
+            <label for="ball-select">Choose ball color</label>
+            <select id="ball-select" name="ball"></select>
           </div>
 
           <div class="wizard-nav">
